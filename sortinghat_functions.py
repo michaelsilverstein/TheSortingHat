@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 __author__ = 'Michael Silverstein'
 
@@ -38,4 +39,7 @@ def generate_feature(means, stds, n, labels, feature=None, seed=None, MIN=None, 
     if not feature:
         feature = 'feature'
     data = pd.DataFrame(data, columns=[feature, 'class'])
+    # Apply thresholds
+    data.loc[data[feature]>=MAX, feature] = MAX
+    data.loc[data[feature]<=MIN, feature] = MIN
     return data
