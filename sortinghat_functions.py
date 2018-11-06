@@ -2,7 +2,7 @@ import numpy as np
 
 __author__ = 'Michael Silverstein'
 
-def generate_feature(means, stds, n, labels, seed=None):
+def generate_feature(means, stds, n, labels, feature=None, seed=None, MIN=None, MAX=None):
     """
     Generate feature data assuming features are normally distributed.
     For each input parameter, either a list (associated with the order of `labels`) or a single value can be passed. 
@@ -12,9 +12,11 @@ def generate_feature(means, stds, n, labels, seed=None):
     | stds: <list> or <float> Standard deviation(s) of feature distribution
     | n: <list> or <float> Number of samples for each class
     | labels: <array> List of labels (this order is associated with the other passed parameters)
+    | feature: <str> Name of feature
     | seed: <int> Random seed for sampling
+    | {MIN, MAX}: <float> Minimum and maximum thresholds
     Output:
-    | data: <n x 2 array> Data for single feature where each sample is labeled by class
+    | data: <dataframe> || `feature` | class ||
     """
     # If any inputs are single values, convert them to lists
     if np.isscalar(means):
@@ -31,4 +33,9 @@ def generate_feature(means, stds, n, labels, seed=None):
         np.random.seed(seed)
     ## For each class, sample `n` points from a normal distribution with that classes mean and standard deviation
     data = [[x, label] for label in labels for x in np.random.normal(params[label]['mean'], params[label]['std'], params[label]['n'])]
+    
+    # Place into dataframe
+    if not feature:
+        feature = 'feature'
+    data = pd.DataFrame(data, columns=[feature, 'class'])
     return data
