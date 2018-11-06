@@ -1,5 +1,6 @@
 import numpy as np
 
+__author__ = 'Michael Silverstein'
 
 def generate_feature(means, stds, n, labels, seed=None):
     """
