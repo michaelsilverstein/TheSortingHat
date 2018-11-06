@@ -43,3 +43,10 @@ def generate_feature(means, stds, n, labels, feature=None, seed=None, MIN=None, 
     data.loc[data[feature]>=MAX, feature] = MAX
     data.loc[data[feature]<=MIN, feature] = MIN
     return data
+
+def rescale(x, axis=0):
+    """
+    Rescale a matrix X between [0, 1] along `axis`
+    """
+    rescaled = (x - x.min(axis))/(x.max(axis) - x.min(axis))
+    return rescaled
