@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 __author__ = 'Michael Silverstein'
 
@@ -50,3 +51,19 @@ def rescale(x, axis=0):
     """
     rescaled = (x - x.min(axis))/(x.max(axis) - x.min(axis))
     return rescaled
+
+def zebra(ax=None, color='gray', alpha=.3, zorder=0, **kwargs):
+    """
+    Stripe figure - Color every other x position with `fill_between()`
+    If no ax provided, use current ax
+    """
+    if not ax:
+        ax = plt.gca()
+    # Choose x positions to color
+    xs = ax.get_xticks()[::2]
+    ylim = ax.get_ylim()
+    kwargs.update({'color': color, 'alpha': alpha, 'zorder': zorder})
+    for x in xs:
+        ax.fill_between((x - .5, x + .5), ylim[0], ylim[1], **kwargs)
+    ax.set_ylim(ylim)
+    return ax
